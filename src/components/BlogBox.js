@@ -13,6 +13,7 @@ class BlogBox extends Component {
   }
 
   handleBlogSubmit(blog) {
+    //Submit new blog data to server
     axios.post('/postBlog', blog)
       .then(res => {
         this.setState({data: res.data});
@@ -23,6 +24,7 @@ class BlogBox extends Component {
   }
 
   componentDidMount() {
+    //Fetching data from server
     axios.get('/blogData')
       .then(res => {
         this.setState({

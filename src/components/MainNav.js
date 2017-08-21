@@ -5,6 +5,7 @@ import {
   NavItem
 } from 'react-bootstrap';
 
+//Bootstrap NavBar
 class MainNav extends Component {
   render() {
     return (

@@ -1,14 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class Blog extends Component {
-  render() {
-    return (
-      <div>
-        <h1>{this.props.blogTitle}</h1>
-        <p>{this.props.text}</p>
-      </div>
-    );
-  }
+function Blog(props) {
+  return (
+    <div>
+      <h1>{props.blogTitle}</h1>
+      <p>{props.text}</p>
+    </div>
+  );
 }
 
 export default Blog;

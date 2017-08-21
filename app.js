@@ -5,7 +5,7 @@ const path = require('path');
 const data = require('./src/data.json');
 const fs = require('fs');
 
-//Init app
+//Initialize app
 const app = express();
 
 // Middleware
@@ -17,23 +17,28 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //Setting up static asset
 app.use(express.static(path.join(__dirname, 'build')));
 
-//Initial Route
+//Index Route
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
+//Handle request for blog data
 app.get('/blogData', (req, res) => {
   res.json(data);
 });
 
+//Handle POST request for submitting new blog data
 app.post('/postBlog', (req, res) => {
   let post = {
     title: req.body.title,
     text: req.body.text
   };
+
   data.push(post);
+  
   const dataUpdate = JSON.stringify(data);
 
+  //Store new data in json data file
   fs.writeFile('./src/data.json', dataUpdate, 'utf8', (err) => {
       if(err) {
         return console.error(err);
