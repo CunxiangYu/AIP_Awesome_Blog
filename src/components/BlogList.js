@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Blog from './/Blog';
 
+//Collection for blogs
 function BlogList(props) {
   let blogs = props.data.map(blog => {
     return (

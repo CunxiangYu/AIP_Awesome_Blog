@@ -6,6 +6,7 @@ import {
   Button
 } from 'react-bootstrap';
 
+//Form component for posting new blogs to server
 class BlogForm extends Component {
   constructor(props) {
     super(props);
@@ -43,7 +44,7 @@ class BlogForm extends Component {
       title: title,
       text: text
     });
-    
+
     this.setState({
       title: "",
       text: ""

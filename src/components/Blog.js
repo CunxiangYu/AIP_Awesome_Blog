@@ -1,5 +1,6 @@
 import React from 'react';
 
+//Individual blog
 function Blog(props) {
   return (
     <div>

@@ -3,6 +3,7 @@ import BlogList from './BlogList';
 import BlogForm from './BlogForm';
 import axios from 'axios';
 
+// Container of blog body and set up initial blog data and component states
 class BlogBox extends Component {
   constructor(props) {
     super(props);
