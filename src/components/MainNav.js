@@ -5,6 +5,7 @@ import {
   NavItem
 } from 'react-bootstrap';
 
+//Site NavBar (probably will be changed to Material-UI)
 class MainNav extends Component {
   render() {
     return (

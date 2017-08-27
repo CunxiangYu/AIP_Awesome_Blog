@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 const db = require('./dbCredentials');
 const findAllBlogs = require('./lib/findAllBlogs');
 
-//Init app
+//Initialize app
 const app = express();
 
 // Connect to mLab database
@@ -24,7 +24,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //Setting up static asset
 app.use(express.static(path.join(__dirname, 'build')));
 
-//Initial Route
+//Index Route
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });

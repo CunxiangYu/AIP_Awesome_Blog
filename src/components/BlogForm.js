@@ -6,6 +6,7 @@ import {
   Button
 } from 'react-bootstrap';
 
+//Form component for posting new blogs to server
 class BlogForm extends Component {
   constructor(props) {
     super(props);
@@ -34,13 +35,16 @@ class BlogForm extends Component {
     e.preventDefault(e);
     let title = this.state.title.trim();
     let text = this.state.text.trim();
+
     if (!title || !text) {
       return;
     }
+
     this.props.onBlogSubmit({
       title: title,
       text: text
     });
+
     this.setState({
       title: "",
       text: ""

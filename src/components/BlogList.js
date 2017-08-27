@@ -10,11 +10,15 @@ class BlogList extends Component {
     });
 
     return (
-      <div>
-        {blogs}
-      </div>
+      <Blog key={blog.title} text={blog.text} blogTitle={blog.title} />
     );
-  }
+  });
+
+  return (
+    <div>
+      {blogs}
+    </div>
+  );
 }
 
 export default BlogList;
