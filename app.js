@@ -2,11 +2,18 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
-const data = require('./src/data.json');
-const fs = require('fs');
+const mongoose = require('mongoose');
+const db = require('./dbCredentials');
+const findAllBlogs = require('./lib/findAllBlogs');
 
 //Init app
 const app = express();
+
+// Connect to mLab database
+mongoose.connect(`mongodb://${db.user}:${db.password}@ds151973.mlab.com:51973/aip_blog`);
+
+// Blog Collection
+const Blog = require('./models/blog');
 
 // Middleware
 // body-parser for parsing request body
@@ -22,25 +29,20 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
-app.get('/blogData', (req, res) => {
-  res.json(data);
+app.get('/api/blog', (req, res) => {
+  findAllBlogs(Blog, res);
 });
 
-app.post('/postBlog', (req, res) => {
-  let post = {
-    title: req.body.title,
-    text: req.body.text
-  };
-  data.push(post);
-  const dataUpdate = JSON.stringify(data);
+app.post('/api/blog', (req, res) => {
+  let title = req.body.title;
+  let body = req.body.text;
+  new Blog({
+    title: title,
+    body: body,
+    date: new Date()
+  }).save();
 
-  fs.writeFile('./src/data.json', dataUpdate, 'utf8', (err) => {
-      if(err) {
-        return console.error(err);
-      }
-  });
-
-  res.json(data);
+  findAllBlogs(Blog, res);
 });
 
 //Set port and start server

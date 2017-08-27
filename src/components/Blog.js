@@ -5,7 +5,9 @@ class Blog extends Component {
     return (
       <div>
         <h1>{this.props.blogTitle}</h1>
-        <p>{this.props.text}</p>
+        <span>{this.props.date}</span>
+        <br />
+        <p>{this.props.body}</p>
       </div>
     );
   }

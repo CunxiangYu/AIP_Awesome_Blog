@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import Blog from './/Blog';
+import Blog from './Blog';
 
 class BlogList extends Component {
   render() {
     let blogs = this.props.data.map(blog => {
       return (
-        <Blog key={blog.title} text={blog.text} blogTitle={blog.title} />
+        <Blog key={blog._id} body={blog.body} date={blog.date} blogTitle={blog.title} />
       );
     });
 

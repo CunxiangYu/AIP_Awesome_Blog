@@ -13,7 +13,7 @@ class BlogBox extends Component {
   }
 
   handleBlogSubmit(blog) {
-    axios.post('/postBlog', blog)
+    axios.post('/api/blog', blog)
       .then(res => {
         this.setState({data: res.data});
       })
@@ -23,7 +23,7 @@ class BlogBox extends Component {
   }
 
   componentDidMount() {
-    axios.get('/blogData')
+    axios.get('/api/blog')
       .then(res => {
         this.setState({
           data: res.data
