@@ -9,7 +9,7 @@ app.get('/', (req, res) => {
 });
 
 const port = process.env.PORT || 8000;
-const host = '0.0.0.0';
+const host = process.env.IP || '0.0.0.0';
 app.listen(port, host, () => {
     console.log(`Server started on port ${port}`);
 });
