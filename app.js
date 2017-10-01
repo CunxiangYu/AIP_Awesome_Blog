@@ -34,8 +34,6 @@ app.engine('handlebars', exphbs({
 }));
 app.set('view engine', 'handlebars');
 
-
-
 // Body parser Middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -56,12 +54,29 @@ app.get('/blogs', (req, res) => {
     });
 });
 
-// Add Blog Route
+// Add Blog Form Route
 app.get('/blogs/add', (req, res) => {
   res.render('blogs/add');
 });
 
-// Post Blog Route
+// Show individual Blog Route
+app.get('/blogs/show/:id', (req, res) => {
+  Blog.findOne({
+    _id: req.params.id
+  })
+  .then(blog => {
+    res.render('blogs/show', {
+      blog: blog
+    });
+  });
+});
+
+// Edit Blog Form Route
+app.get('/blogs/edit/:id', (req, res) => {
+  res.render('blogs/edit');
+});
+
+// Process Blog Form Route
 app.post('/blogs', (req, res) => {
   // Server side validation
   let errors = [];
@@ -118,7 +133,7 @@ app.post('/blogs', (req, res) => {
 
 
 // Set port for production and development
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 8000;
 
 app.listen(port, () => {
   console.log(`Server started on port ${port}`);
