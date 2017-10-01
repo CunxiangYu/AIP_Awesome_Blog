@@ -15,6 +15,10 @@ mongoose.connect(config.db, {
   .then(() => console.log('MongoDB connected...'))
   .catch(err => console.log(err));
 
+// Import Blog Model
+require('./models/Blog');
+const Blog = mongoose.model('blogs');
+
 // Handlebars Middleware
 app.engine('handlebars', exphbs({
   defaultLayout: 'main'
@@ -26,6 +30,10 @@ app.get('/', (req, res) => {
   res.render('index');
 });
 
+// Add Blog Form
+app.get('/blogs/add', (req, res) => {
+  res.render('blogs/add');
+});
 
 // Set port for production and development
 const port = process.env.PORT || 5000;
