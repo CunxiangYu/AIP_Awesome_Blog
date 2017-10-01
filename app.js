@@ -20,11 +20,21 @@ mongoose.connect(config.db, {
 require('./models/Blog');
 const Blog = mongoose.model('blogs');
 
+// Handlebars helper functions
+const {
+  stripTags
+} = require('./helpers/hbs');
+
 // Handlebars Middleware
 app.engine('handlebars', exphbs({
+  helpers: {
+    stripTags: stripTags
+  },
   defaultLayout: 'main'
 }));
 app.set('view engine', 'handlebars');
+
+
 
 // Body parser Middleware
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -33,6 +43,17 @@ app.use(bodyParser.json());
 // Index Route (Welcome page)
 app.get('/', (req, res) => {
   res.render('index');
+});
+
+// Blogs Index page
+app.get('/blogs', (req, res) => {
+  Blog.find({})
+    .sort({date: 'desc'})
+    .then(blogs => {
+      res.render('blogs/index', {
+        blogs: blogs
+      });
+    });
 });
 
 // Add Blog Route
