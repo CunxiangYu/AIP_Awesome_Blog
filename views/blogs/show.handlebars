@@ -6,5 +6,10 @@
   </div>
 </div>
 <br>
-<a class="btn btn-lg btn-outline-warning" href="/blogs/edit/{{blog._id}}" role="button">Edit</a>
-<a class="btn btn-lg btn-outline-danger" href="#" role="button">Delete</a>
+<a class="btn btn-lg btn-block btn-outline-warning"
+href="/blogs/edit/{{blog._id}}" role="button">Edit</a>
+<form class="mt-2" action="/blogs/{{blog._id}}?_method=DELETE" method="post">
+  <input type="hidden" name="_method" value="DELETE">
+  <input class="btn btn-lg btn-block btn-outline-danger"
+  type="submit" value="Delete">
+</form>

@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const methodOverride = require('method-override');
 const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
 
@@ -38,6 +39,9 @@ app.set('view engine', 'handlebars');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+// Method Override Middleware
+app.use(methodOverride('_method'));
+
 // Index Route (Welcome page)
 app.get('/', (req, res) => {
   res.render('index');
@@ -73,10 +77,17 @@ app.get('/blogs/show/:id', (req, res) => {
 
 // Edit Blog Form Route
 app.get('/blogs/edit/:id', (req, res) => {
-  res.render('blogs/edit');
+  Blog.findOne({
+    _id: req.params.id
+  })
+  .then(blog => {
+    res.render('blogs/edit', {
+      blog: blog
+    });
+  });
 });
 
-// Process Blog Form Route
+// Process Add Blog Form Route
 app.post('/blogs', (req, res) => {
   // Server side validation
   let errors = [];
@@ -109,9 +120,32 @@ app.post('/blogs', (req, res) => {
   }
 });
 
+// Process Edit Blog Form Route
+app.put('/blogs/:id', (req, res) => {
+  Blog.findOne({
+    _id: req.params.id
+  })
+  .then(blog => {
+    // Assign new values
+    blog.title = req.body.title;
+    blog.content = req.body.content;
 
+    blog.save()
+      .then(blog => {
+        res.redirect('/blogs');
+      });
+  });
+});
 
-
+// Delete Blog Route
+app.delete('/blogs/:id', (req, res) => {
+  Blog.remove({
+    _id: req.params.id
+  })
+  .then(() => {
+    res.redirect('/blogs');
+  });
+});
 
 
 
