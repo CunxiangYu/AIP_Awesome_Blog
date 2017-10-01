@@ -1,6 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
+const flash = require('connect-flash');
+const session = require('express-session');
 const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
 
@@ -41,6 +43,24 @@ app.use(bodyParser.json());
 
 // Method Override Middleware
 app.use(methodOverride('_method'));
+
+// Express session Middleware
+app.use(session({
+  secret: 'secret',
+  resave: true,
+  saveUninitialized: true,
+}));
+
+// Flash Middleware
+app.use(flash());
+
+// Global variables Middleware
+app.use((req, res, next) => {
+  res.locals.success_msg = req.flash('success_msg');
+  res.locals.error_msg = req.flash('error_msg');
+  res.locals.error = req.flash('error');
+  next();
+});
 
 // Index Route (Welcome page)
 app.get('/', (req, res) => {
@@ -115,6 +135,7 @@ app.post('/blogs', (req, res) => {
     new Blog(newBlog)
       .save()
       .then(blog => {
+        req.flash('success_msg', 'Your blog has been successfully added!');
         res.redirect('/blogs')
       });
   }
@@ -132,6 +153,7 @@ app.put('/blogs/:id', (req, res) => {
 
     blog.save()
       .then(blog => {
+        req.flash('success_msg', 'Your blog has been successfully updated!');
         res.redirect('/blogs');
       });
   });
@@ -143,6 +165,7 @@ app.delete('/blogs/:id', (req, res) => {
     _id: req.params.id
   })
   .then(() => {
+    req.flash('success_msg', 'Your blog has been successfully deleted!');
     res.redirect('/blogs');
   });
 });
