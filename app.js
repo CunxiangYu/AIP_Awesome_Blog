@@ -20,9 +20,9 @@ require('./config/passport')(passport);
 
 // Connect to database
 mongoose.Promise = global.Promise; // Map global promise
-const config = require('./config/credentials');
+const dbConfig = require('./config/database');
 
-mongoose.connect(config.db, {
+mongoose.connect(dbConfig.db, {
   useMongoClient: true
 })
   .then(() => console.log('MongoDB connected...'))
@@ -83,18 +83,6 @@ app.get('/', (req, res) => {
 // Use routes
 app.use('/blogs', blogs);
 app.use('/users', users);
-
-
-
-
-
-
-
-
-
-
-
-
 
 // Set port for production and development
 const port = process.env.PORT || 8000;
