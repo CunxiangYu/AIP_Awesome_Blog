@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Awesome Blog</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/styles.css">
   </head>
   <body>
     {{> _navbar}}
@@ -25,9 +26,11 @@
         $('.alert').alert();
       });
 
-      CKEDITOR.replace('content', {
-        plugins: 'wysiwygarea,toolbar,basicstyles,link'
-      });
+      if ($("[name='content']").length) {
+        CKEDITOR.replace('content', {
+          plugins: 'wysiwygarea,toolbar,basicstyles,link'
+        });
+      }
     </script>
   </body>
 </html>
