@@ -59,6 +59,10 @@ app.use(session({
   saveUninitialized: true,
 }));
 
+// Passport session Middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
 // Flash Middleware
 app.use(flash());
 
