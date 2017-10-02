@@ -97,7 +97,7 @@ app.use('/users', users);
 
 
 // Set port for production and development
-const port = process.env.PORT || 3080;
+const port = process.env.PORT || 8000;
 
 app.listen(port, () => {
   console.log(`Server started on port ${port}`);

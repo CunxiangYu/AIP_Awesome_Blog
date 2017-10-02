@@ -29,8 +29,15 @@ router.get('/show/:id', ensureAuthenticated, (req, res) => {
     _id: req.params.id
   })
   .then(blog => {
+    let isAuthor;
+    if (blog.author === req.user.id) {
+      isAuthor = true;
+    } else {
+      isAuthor = false;
+    }
     res.render('blogs/show', {
-      blog: blog
+      blog: blog,
+      isAuthor: isAuthor
     });
   });
 });
@@ -41,9 +48,14 @@ router.get('/edit/:id', ensureAuthenticated, (req, res) => {
     _id: req.params.id
   })
   .then(blog => {
-    res.render('blogs/edit', {
-      blog: blog
-    });
+    if (blog.author !== req.user.id) {
+      req.flash('error_msg', 'You are not authorized.');
+      res.redirect('/blogs');
+    } else {
+      res.render('blogs/edit', {
+        blog: blog
+      });
+    }
   });
 });
 
@@ -70,7 +82,8 @@ router.post('/', ensureAuthenticated, (req, res) => {
   } else {
     const newBlog = {
       title: req.body.title,
-      content: req.body.content
+      content: req.body.content,
+      author: req.user.id
     };
     new Blog(newBlog)
       .save()
