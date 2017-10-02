@@ -9,6 +9,10 @@ const bodyParser = require('body-parser');
 // Init app
 const app = express();
 
+// Import routes
+const blogs = require('./routes/blogs');
+const users = require('./routes/users');
+
 // Connect to database
 mongoose.Promise = global.Promise; // Map global promise
 const config = require('./config/credentials');
@@ -18,10 +22,6 @@ mongoose.connect(config.db, {
 })
   .then(() => console.log('MongoDB connected...'))
   .catch(err => console.log(err));
-
-// Import Blog Model
-require('./models/Blog');
-const Blog = mongoose.model('blogs');
 
 // Handlebars helper functions
 const {
@@ -67,115 +67,9 @@ app.get('/', (req, res) => {
   res.render('index');
 });
 
-// Blogs Index page
-app.get('/blogs', (req, res) => {
-  Blog.find({})
-    .sort({date: 'desc'})
-    .then(blogs => {
-      res.render('blogs/index', {
-        blogs: blogs
-      });
-    });
-});
-
-// Add Blog Form Route
-app.get('/blogs/add', (req, res) => {
-  res.render('blogs/add');
-});
-
-// Show individual Blog Route
-app.get('/blogs/show/:id', (req, res) => {
-  Blog.findOne({
-    _id: req.params.id
-  })
-  .then(blog => {
-    res.render('blogs/show', {
-      blog: blog
-    });
-  });
-});
-
-// Edit Blog Form Route
-app.get('/blogs/edit/:id', (req, res) => {
-  Blog.findOne({
-    _id: req.params.id
-  })
-  .then(blog => {
-    res.render('blogs/edit', {
-      blog: blog
-    });
-  });
-});
-
-// Process Add Blog Form Route
-app.post('/blogs', (req, res) => {
-  // Server side validation
-  let errors = [];
-
-  if (!req.body.title) {
-    errors.push({text: 'Title cannot be empty'});
-  }
-  if (!req.body.content) {
-    errors.push({text: 'Content cannot be empty'})
-  }
-
-  // If there is at least one error
-  // Then re-render the add blog route with error message
-  if (errors.length > 0) {
-    res.render('blogs/add', {
-      errors: errors,
-      title: req.body.title,
-      content: req.body.content
-    });
-  } else {
-    const newBlog = {
-      title: req.body.title,
-      content: req.body.content
-    };
-    new Blog(newBlog)
-      .save()
-      .then(blog => {
-        req.flash('success_msg', 'Your blog has been successfully added!');
-        res.redirect('/blogs')
-      });
-  }
-});
-
-// Process Edit Blog Form Route
-app.put('/blogs/:id', (req, res) => {
-  Blog.findOne({
-    _id: req.params.id
-  })
-  .then(blog => {
-    // Assign new values
-    blog.title = req.body.title;
-    blog.content = req.body.content;
-
-    blog.save()
-      .then(blog => {
-        req.flash('success_msg', 'Your blog has been successfully updated!');
-        res.redirect('/blogs');
-      });
-  });
-});
-
-// Delete Blog Route
-app.delete('/blogs/:id', (req, res) => {
-  Blog.remove({
-    _id: req.params.id
-  })
-  .then(() => {
-    req.flash('success_msg', 'Your blog has been successfully deleted!');
-    res.redirect('/blogs');
-  });
-});
-
-
-
-
-
-
-
+// Use routes
+app.use('/blogs', blogs);
+app.use('/users', users);
 
 
 
@@ -190,7 +84,7 @@ app.delete('/blogs/:id', (req, res) => {
 
 
 // Set port for production and development
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 8080;
 
 app.listen(port, () => {
   console.log(`Server started on port ${port}`);

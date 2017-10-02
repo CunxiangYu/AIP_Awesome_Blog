@@ -1,5 +1,5 @@
 {{#each errors}}
-  <div class="alert alert-success alert-dismissible fade show" role="alert">
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -21,7 +21,7 @@
       <div class="form-group">
         <label for="content">Content:</label>
         <textarea class="form-control"
-        name="content"></textarea>
+        name="content">{{content}}</textarea>
       </div>
       <button type="submit" class="btn btn-outline-primary">Submit</button>
     </form>
