@@ -5,6 +5,7 @@ const methodOverride = require('method-override');
 const flash = require('connect-flash');
 const session = require('express-session');
 const exphbs = require('express-handlebars');
+const passport = require('passport');
 const bodyParser = require('body-parser');
 
 // Init app
@@ -13,6 +14,9 @@ const app = express();
 // Import routes
 const blogs = require('./routes/blogs');
 const users = require('./routes/users');
+
+// Passport Config
+require('./config/passport')(passport);
 
 // Connect to database
 mongoose.Promise = global.Promise; // Map global promise

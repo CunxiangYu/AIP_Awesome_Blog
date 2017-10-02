@@ -52,10 +52,10 @@ router.post('/', (req, res) => {
   let errors = [];
 
   if (!req.body.title) {
-    errors.push({text: 'Title cannot be empty'});
+    errors.push({text: 'Title cannot be empty.'});
   }
   if (!req.body.content) {
-    errors.push({text: 'Content cannot be empty'})
+    errors.push({text: 'Content cannot be empty.'})
   }
 
   // If there is at least one error
@@ -74,7 +74,7 @@ router.post('/', (req, res) => {
     new Blog(newBlog)
       .save()
       .then(blog => {
-        req.flash('success_msg', 'Your blog has been successfully added!');
+        req.flash('success_msg', 'Your blog has been successfully added.');
         res.redirect('/blogs')
       });
   }
@@ -92,7 +92,7 @@ router.put('/:id', (req, res) => {
 
     blog.save()
       .then(blog => {
-        req.flash('success_msg', 'Your blog has been successfully updated!');
+        req.flash('success_msg', 'Your blog has been successfully updated.');
         res.redirect('/blogs');
       });
   });
@@ -104,7 +104,7 @@ router.delete('/:id', (req, res) => {
     _id: req.params.id
   })
   .then(() => {
-    req.flash('success_msg', 'Your blog has been successfully deleted!');
+    req.flash('success_msg', 'Your blog has been successfully deleted.');
     res.redirect('/blogs');
   });
 });
