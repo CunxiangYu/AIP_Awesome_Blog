@@ -1,13 +1,14 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const router = express.Router();
+const { ensureAuthenticated } =require('../helpers/auth'); // Protect routes
 
 // Import Blog Model
 require('../models/Blog');
 const Blog = mongoose.model('blogs');
 
 // Blogs Index page
-router.get('/', (req, res) => {
+router.get('/', ensureAuthenticated, (req, res) => {
   Blog.find({})
     .sort({date: 'desc'})
     .then(blogs => {
@@ -18,12 +19,12 @@ router.get('/', (req, res) => {
 });
 
 // Add Blog Form Route
-router.get('/add', (req, res) => {
+router.get('/add', ensureAuthenticated, (req, res) => {
   res.render('blogs/add');
 });
 
 // Show individual Blog Route
-router.get('/show/:id', (req, res) => {
+router.get('/show/:id', ensureAuthenticated, (req, res) => {
   Blog.findOne({
     _id: req.params.id
   })
@@ -35,7 +36,7 @@ router.get('/show/:id', (req, res) => {
 });
 
 // Edit Blog Form Route
-router.get('/edit/:id', (req, res) => {
+router.get('/edit/:id', ensureAuthenticated, (req, res) => {
   Blog.findOne({
     _id: req.params.id
   })
@@ -47,7 +48,7 @@ router.get('/edit/:id', (req, res) => {
 });
 
 // Process Add Blog Form Route
-router.post('/', (req, res) => {
+router.post('/', ensureAuthenticated, (req, res) => {
   // Server side validation
   let errors = [];
 
@@ -81,7 +82,7 @@ router.post('/', (req, res) => {
 });
 
 // Process Edit Blog Form Route
-router.put('/:id', (req, res) => {
+router.put('/:id', ensureAuthenticated, (req, res) => {
   Blog.findOne({
     _id: req.params.id
   })
@@ -99,7 +100,7 @@ router.put('/:id', (req, res) => {
 });
 
 // Delete Blog Route
-router.delete('/:id', (req, res) => {
+router.delete('/:id', ensureAuthenticated, (req, res) => {
   Blog.remove({
     _id: req.params.id
   })
