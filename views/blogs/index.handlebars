@@ -5,6 +5,54 @@
   <strong>Announcement: </strong><span id="announcement"></span>
 </div>
 
+<div id="weatherCard" class="card hidden-lg-down" style="width: 15rem;">
+  <div class="weatherIcon">
+    <div class="text-center all-icon">
+      <div class="icon sun-shower hide ">
+        <div class="cloud"></div>
+        <div class="sun">
+          <div class="rays"></div>
+        </div>
+        <div class="rain"></div>
+      </div>
+      <div class="icon thunder-storm hide thunderstom">
+        <div class="cloud"></div>
+        <div class="lightning">
+          <div class="bolt"></div>
+          <div class="bolt"></div>
+        </div>
+      </div>
+      <div class="icon cloudy hide clouds">
+        <div class="cloud"></div>
+        <div class="cloud"></div>
+      </div>
+      <div class="icon flurries hide snow">
+        <div class="cloud"></div>
+        <div class="snow">
+          <div class="flake"></div>
+          <div class="flake"></div>
+        </div>
+      </div>
+      <div class="icon sunny hide clear">
+        <div class="sun">
+          <div class="rays"></div>
+        </div>
+      </div>
+      <div class="icon rainy hide rain">
+        <div class="cloud"></div>
+        <div class="rain"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card-block">
+    <div class="text-center status">
+      <p><span id="city"></span> <span id="country"></span></p>
+      <p><span id="temp"></span></p>
+      <p id="desc"></p>
+    </div>
+  </div>
+</div>
+
 {{#each blogs}}
   <div class="card mb-2">
     <div class="card-block">
