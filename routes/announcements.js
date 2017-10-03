@@ -19,7 +19,13 @@ router.get('/', ensureAuthenticated, (req, res) => {
 
 // Make Announcement Form Route
 router.get('/make', ensureAuthenticated, (req, res) => {
-  res.render('announcements/make');
+  // Only admin can access this route
+  if (!req.user.isAdmin) {
+    req.flash('error_msg', 'You are not authorized.');
+    res.redirect('/blogs');
+  } else {
+    res.render('announcements/make');;
+  }
 });
 
 // Process Make Announcement Form Route
