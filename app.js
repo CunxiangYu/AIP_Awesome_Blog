@@ -21,9 +21,9 @@ require('./config/passport')(passport);
 
 // Connect to MongoDB
 mongoose.Promise = global.Promise; // Map global promise
-const dbConfig = require('./config/db');
+const dbConfig = require('./config/database');
 
-mongoose.connect(dbConfig.db, {
+mongoose.connect(dbConfig.setting, {
   useMongoClient: true
 })
   .then(() => console.log('MongoDB connected...'))
@@ -93,7 +93,7 @@ app.use('/users', users);
 app.use('/announcements', announcements);
 
 // Set port for production and development
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8001;
 
 app.listen(port, () => {
   console.log(`Server started on port ${port}`);
