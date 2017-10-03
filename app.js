@@ -14,11 +14,12 @@ const app = express();
 // Import routes
 const blogs = require('./routes/blogs');
 const users = require('./routes/users');
+const announcements = require('./routes/announcements');
 
 // Passport Config
 require('./config/passport')(passport);
 
-// Connect to database
+// Connect to MongoDB
 mongoose.Promise = global.Promise; // Map global promise
 const dbConfig = require('./config/database');
 
@@ -63,7 +64,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Flash Middleware
+// Flash messaging Middleware
 app.use(flash());
 
 // Global variables Middleware
@@ -80,9 +81,10 @@ app.get('/', (req, res) => {
   res.render('index');
 });
 
-// Use routes
+// Use blog, user and announcement routes
 app.use('/blogs', blogs);
 app.use('/users', users);
+app.use('/announcements', announcements);
 
 // Set port for production and development
 const port = process.env.PORT || 8000;

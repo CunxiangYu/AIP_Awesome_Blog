@@ -1,3 +1,8 @@
+/***
+*  Function for ensuring only authorized
+*  user can access certain routes
+***/
+
 module.exports = {
   ensureAuthenticated: function(req, res, next) {
     if (req.isAuthenticated()) {

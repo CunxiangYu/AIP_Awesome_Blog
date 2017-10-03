@@ -13,14 +13,17 @@ router.get('/', ensureAuthenticated, (req, res) => {
     .sort({date: 'desc'})
     .then(blogs => {
       res.render('blogs/index', {
-        blogs: blogs
+        blogs: blogs,
+        isAdmin: req.user.isAdmin
       });
     });
 });
 
 // Add Blog Form Route
 router.get('/add', ensureAuthenticated, (req, res) => {
-  res.render('blogs/add');
+  res.render('blogs/add', {
+    isAdmin: req.user.isAdmin
+  });
 });
 
 // Show individual Blog Route
@@ -37,7 +40,8 @@ router.get('/show/:id', ensureAuthenticated, (req, res) => {
     }
     res.render('blogs/show', {
       blog: blog,
-      isAuthor: isAuthor
+      isAuthor: isAuthor,
+      isAdmin: req.user.isAdmin
     });
   });
 });
@@ -53,7 +57,8 @@ router.get('/edit/:id', ensureAuthenticated, (req, res) => {
       res.redirect('/blogs');
     } else {
       res.render('blogs/edit', {
-        blog: blog
+        blog: blog,
+        isAdmin: req.user.isAdmin
       });
     }
   });
