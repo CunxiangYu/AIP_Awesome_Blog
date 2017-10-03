@@ -11,14 +11,14 @@
 *
 * Thanks to 'joshbader' for those wonderful CSS
 * animated weather icons
-* His CodePen URL: https://codepen.io/joshbader/full/EjXgqr/
+* URL of his CodePen: https://codepen.io/joshbader/full/EjXgqr/
 *
 ***/
 
 div#weatherCard {
   display: none;
   position: fixed;
-  left: 30px;
+  right: 30px;
   top: 80px;
   z-index: 1001;
   font-family: 'Roboto';

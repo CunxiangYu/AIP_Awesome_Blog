@@ -80,7 +80,10 @@ $(document).ready(() => {
       console.log("Geolocation is not supported by this browser.");
     }
 
-
+    // Allow user to close the weather box by clicking the close icon
+    $('.close').on('click',function() {
+      $(this).closest('.card').fadeOut();
+    });
   }
 
   // If there is a textarea for writing blog content
