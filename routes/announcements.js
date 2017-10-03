@@ -7,6 +7,16 @@ const { ensureAuthenticated } =require('../helpers/auth'); // Protect routes
 require('../models/Announcement');
 const Announcement = mongoose.model('announcements');
 
+// Process GET latest announcement Route
+router.get('/', ensureAuthenticated, (req, res) => {
+  Announcement.find({})
+    .sort({date: 'desc'})
+    .limit(1)
+    .then(announcement => {
+      res.json({ data: announcement[0].announcement });
+    });
+});
+
 // Make Announcement Form Route
 router.get('/make', ensureAuthenticated, (req, res) => {
   res.render('announcements/make');
