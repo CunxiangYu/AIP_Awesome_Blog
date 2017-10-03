@@ -21,7 +21,7 @@ require('./config/passport')(passport);
 
 // Connect to MongoDB
 mongoose.Promise = global.Promise; // Map global promise
-const dbConfig = require('./config/database');
+const dbConfig = require('./config/db');
 
 mongoose.connect(dbConfig.db, {
   useMongoClient: true
