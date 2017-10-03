@@ -15,6 +15,7 @@ function getWeather(api, lat, lon, temp) {
   });
 }
 
+
 // Function for getting the target weather icon
 function IconGen(desc) {
   var desc = desc.toLowerCase()
