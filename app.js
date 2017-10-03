@@ -78,7 +78,13 @@ app.use((req, res, next) => {
 
 // Index Route (Welcome page)
 app.get('/', (req, res) => {
-  res.render('index');
+  if (req.user) {
+    res.render('index', {
+      isAdmin: req.user.isAdmin
+    });
+  } else {
+    res.render('index');
+  }
 });
 
 // Use blog, user and announcement routes

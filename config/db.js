@@ -1,3 +1,3 @@
 module.exports = {
-  db: 'mongodb://Cunx:13882168008Ycx@ds155674.mlab.com:55674/awesome-blog'
+  db: 'mongodb://CunxiangYu:13882168008ycx@ds161574.mlab.com:61574/aip-blog'
 };

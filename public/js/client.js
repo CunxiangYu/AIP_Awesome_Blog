@@ -54,8 +54,9 @@ $(document).ready(() => {
     // Make a GET Ajax request to get the latest announcement
     $.get('/announcements', function(res) {
       $('#announcement').text(res.data);
+      $('#announcementDiv').show(1500);
       setTimeout(function() {
-        $('#announcementDiv').show(1500);
+        $('#announcementDiv').fadeOut(4000);
       }, 2000)
     });
   }
