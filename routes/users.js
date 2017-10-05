@@ -83,6 +83,18 @@ router.post('/register', (req, res) => {
   }
 });
 
+// Password Reset Form Route
+router.get('/reset', (req, res) => {
+  res.render('users/reset');
+});
+
+// Process Password Reset Request Route
+router.post('/reset', (req, res) => {
+
+  // TO DO
+
+});
+
 // Logout Route
 router.get('/logout', (req, res) => {
   req.logout();
