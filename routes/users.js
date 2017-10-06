@@ -3,11 +3,24 @@ const mongoose = require('mongoose');
 const generator = require('generate-password');
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
+const nodemailer = require('nodemailer');
+const sgTransport = require('nodemailer-sendgrid-transport');
+const emailSetting = require('../config/email');
 const router = express.Router();
 
 // Import Blog Model
 require('../models/User');
 const User = mongoose.model('users');
+
+// Create sendGrid email trasport
+const options = {
+  auth: {
+    api_user: emailSetting.user,
+    api_key: emailSetting.key
+  }
+};
+
+const client = nodemailer.createTransport(sgTransport(options));
 
 // User Login Route
 router.get('/login', (req, res) => {
@@ -102,7 +115,8 @@ router.post('/reset', (req, res) => {
             length: 10,
             numbers: true
         });
-        console.log(newPassword);
+
+        // Hash the new password and save it into db
         bcrypt.genSalt(10, (err, salt) => {
           bcrypt.hash(newPassword, salt, (err, hash) => {
             if (err) throw err;
@@ -117,6 +131,24 @@ router.post('/reset', (req, res) => {
                 return;
               });
           });
+        });
+
+        // Send email using sendGrid's service
+        const email = {
+          from: 'Awesome Blog Support, support@awesome-blog.com',
+          to: user.email,
+          subject: 'Your password has been reset!',
+          text: `Your password has been reset to ${newPassword}`,
+          html: `<p>Congratulations! Your password has been
+                   successfully reset to:</p>
+                 <p>            <strong>${newPassword}</strong></p>
+                 <p>You can now <a href="https://fathomless-retreat-52004.herokuapp.com/users/login" target="_blank">Login</a> with your new password!</p>`
+        };
+
+        client.sendMail(email, function(err, info){
+          if (err ){
+            console.log(error);
+          }
         });
       }
     });
