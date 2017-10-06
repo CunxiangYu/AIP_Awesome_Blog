@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const generator = require('generate-password');
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const router = express.Router();
@@ -79,7 +80,7 @@ router.post('/register', (req, res) => {
             });
           });
         }
-      })
+      });
   }
 });
 
@@ -90,9 +91,35 @@ router.get('/reset', (req, res) => {
 
 // Process Password Reset Request Route
 router.post('/reset', (req, res) => {
-
-  // TO DO
-
+  User.findOne({email: req.body.email})
+    .then(user => {
+      if (!user) {
+        req.flash('error_msg', 'No email found, please try again.');
+        res.redirect('/users/reset');
+      } else {
+        // Generate a new random password
+        const newPassword = generator.generate({
+            length: 10,
+            numbers: true
+        });
+        console.log(newPassword);
+        bcrypt.genSalt(10, (err, salt) => {
+          bcrypt.hash(newPassword, salt, (err, hash) => {
+            if (err) throw err;
+            user.password = hash;
+            user.save()
+              .then(user => {
+                req.flash('success_msg', 'Your new password has been sent to your email!');
+                res.redirect('/users/login');
+              })
+              .catch(err => {
+                console.log(err);
+                return;
+              });
+          });
+        });
+      }
+    });
 });
 
 // Logout Route
