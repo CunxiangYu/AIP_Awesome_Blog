@@ -7,6 +7,7 @@ const nodemailer = require('nodemailer');
 const sgTransport = require('nodemailer-sendgrid-transport');
 const emailSetting = require('../config/email');
 const router = express.Router();
+const { ensureAuthenticated } =require('../helpers/auth'); // Protect routes
 
 // Import Blog Model
 require('../models/User');
@@ -107,7 +108,7 @@ router.post('/reset', (req, res) => {
   User.findOne({email: req.body.email})
     .then(user => {
       if (!user) {
-        req.flash('error_msg', 'No email found, please try again.');
+        req.flash('error_msg', 'No user found, please try again.');
         res.redirect('/users/reset');
       } else {
         // Generate a new random password
@@ -154,14 +155,57 @@ router.post('/reset', (req, res) => {
     });
 });
 
+// Change Password Form Route
+router.get('/change-password', ensureAuthenticated, (req, res) => {
+  res.render('users/changePassword');
+});
+
+// Process Change Password Route
+router.post('/change-password', ensureAuthenticated, (req, res) => {
+  let errors = [];
+
+  if (req.body.password !== req.body.password2) {
+    errors.push({ text: 'Passwords do not match.' });
+  }
+
+  if (req.body.password.length < 4) {
+    errors.push({ text: 'Password must be at least 4 characters.' });
+  }
+
+  if (errors.length > 0) {
+    res.render('users/changePassword', {
+      errors: errors,
+      password: req.body.password,
+      password2: req.body.password2
+    });
+  } else {
+    User.findOne({email: req.user.email})
+      .then(user => {
+        // Hash the new password and save it into db
+        bcrypt.genSalt(10, (err, salt) => {
+          bcrypt.hash(req.body.password, salt, (err, hash) => {
+            if (err) throw err;
+            user.password = hash;
+            user.save()
+              .then(user => {
+                req.flash('success_msg', 'Your password has been changed!');
+                res.redirect('/blogs');
+              })
+              .catch(err => {
+                console.log(err);
+                return;
+              });
+          });
+        });
+      });
+  }
+});
+
 // Logout Route
 router.get('/logout', (req, res) => {
   req.logout();
   req.flash('success_msg', 'You are now logged out.');
   res.redirect('/users/login');
 });
-
-
-
 
 module.exports = router;
