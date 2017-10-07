@@ -65,3 +65,4 @@ The project is deployed on [Heroku](https://fathomless-retreat-52004.herokuapp.c
 ## Acknowledgments
 
 * Weather API is inspired by [Josh Bader](https://codepen.io/joshbader/full/EjXgqr/) for his fantastic CSS weather icons.
+* Thanks to [Billie Thompson](https://github.com/PurpleBooth) for providing great stucture for this REAMME.md
